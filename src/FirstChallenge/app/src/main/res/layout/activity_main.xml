@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible"
+    tools:context=".activities.MainActivity"
+    tools:visibility="visible">
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="false"
+        android:contentDescription="@string/app_background_description"
+        android:scaleType="centerCrop"
+        android:src="@drawable/sky_birds"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_display_animal"
+        android:name="com.example.firstchallenge.fragments.DisplayAnimalFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:visibility="visible"
+        tools:layout="@layout/fragment_display_animal" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_edit_animal"
+        android:name="com.example.firstchallenge.fragments.EditAnimalFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:visibility="invisible"
+        tools:layout="@layout/fragment_edit_animal" />
+</FrameLayout>
