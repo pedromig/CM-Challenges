@@ -20,20 +20,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_display_animal"
-        android:name="com.example.firstchallenge.fragments.DisplayAnimalFragment"
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:visibility="visible"
-        tools:layout="@layout/fragment_display_animal" />
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp" />
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_edit_animal"
-        android:name="com.example.firstchallenge.fragments.EditAnimalFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:visibility="invisible"
-        tools:layout="@layout/fragment_edit_animal" />
 </FrameLayout>

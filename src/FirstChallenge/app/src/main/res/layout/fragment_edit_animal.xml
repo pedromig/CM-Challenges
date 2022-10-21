@@ -16,7 +16,7 @@
         app:layout_constraintVertical_bias="0.5">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -36,10 +36,10 @@
             android:src="@drawable/frog"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/title_text_view" />
 
         <LinearLayout
-            android:id="@+id/ownerLinearLayout"
+            android:id="@+id/owner_linear_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -48,10 +48,10 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView">
+            app:layout_constraintTop_toBottomOf="@+id/image_view">
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/owner_edit_text_title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="5dp"
@@ -64,7 +64,7 @@
                 android:textAlignment="center" />
 
             <EditText
-                android:id="@+id/textView2"
+                android:id="@+id/edit_text_owner"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
@@ -77,7 +77,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/nameLinearLayout"
+            android:id="@+id/name_linear_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -86,10 +86,10 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ownerLinearLayout">
+            app:layout_constraintTop_toBottomOf="@+id/owner_linear_layout">
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/name_edit_text_title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="5dp"
@@ -103,7 +103,7 @@
                 android:textAlignment="center" />
 
             <EditText
-                android:id="@+id/textView5"
+                android:id="@+id/edit_text_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
@@ -116,7 +116,7 @@
 
 
         <LinearLayout
-            android:id="@+id/ageLinearLayout"
+            android:id="@+id/age_linear_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -125,10 +125,10 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nameLinearLayout">
+            app:layout_constraintTop_toBottomOf="@+id/name_linear_layout">
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/age_edit_text_title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="5dp"
@@ -142,7 +142,7 @@
                 android:textAlignment="center" />
 
             <EditText
-                android:id="@+id/textView7"
+                android:id="@+id/edit_text_age"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
@@ -165,10 +165,10 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ageLinearLayout">
+            app:layout_constraintTop_toBottomOf="@+id/age_linear_layout">
 
             <Button
-                android:id="@+id/backBtn"
+                android:id="@+id/back_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
@@ -179,7 +179,7 @@
                 android:textSize="20sp" />
 
             <Button
-                android:id="@+id/saveBtn"
+                android:id="@+id/save_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
