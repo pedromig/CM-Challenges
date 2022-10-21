@@ -2,9 +2,8 @@
     <string name="app_name">FirstChallenge</string>
     <string name="app_background_description">App Background Image</string>
     <string name="title_animals">Animals</string>
-    <string name="animals_spinner">Spinner</string>
     <string name="animal_image">The image of the animal</string>
-    <string name="animal_spinner_prompt">Select the animal</string>
+    <string name="animal_spinner_prompt">Select an animal</string>
 
     <string-array name="animal_names">
         <item>Frog</item>

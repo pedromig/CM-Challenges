@@ -15,7 +15,7 @@ import com.example.firstchallenge.fragments.EditAnimalFragment;
 import com.example.firstchallenge.fragments.FragmentChangeListener;
 import com.example.firstchallenge.models.AnimalViewModel;
 
-public class MainActivity extends AppCompatActivity implements FragmentChangeListener {
+public class MainActivity extends AppCompatActivity implements FragmentChangeListener{
 
     public MainActivity() {
         super(R.layout.activity_main);

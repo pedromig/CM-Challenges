@@ -34,10 +34,9 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
-            android:contentDescription="@string/animals_spinner"
-            android:entries="@array/animal_names"
             android:minHeight="48dp"
             android:prompt="@string/animal_spinner_prompt"
+            android:spinnerMode="dialog"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/display_animal_title" />

@@ -1,5 +1,6 @@
 package com.example.firstchallenge.fragments;
 
+import androidx.fragment.app.FragmentResultListener;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -41,7 +42,6 @@ public class EditAnimalFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-
         // Fetch Animal View Model
         this.animalViewModel = new ViewModelProvider(requireActivity()).get(AnimalViewModel.class);
 
@@ -51,11 +51,11 @@ public class EditAnimalFragment extends Fragment {
         // Fetch Context for the Fragment Change listener
         this.fragmentChangeListener = (MainActivity) inflater.getContext();
 
-        // Fetch select Position from Bundled Arguments
-        if (getArguments() != null) {
-            this.selectedAnimal = getArguments().getInt("selectedAnimal");
+        // Fetch arguments passed to the fragment
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            this.selectedAnimal = bundle.getInt("selectedAnimal");
         }
-        Log.w("IMPORTANT", String.valueOf(this.selectedAnimal));
 
         // Fetch Image view
         this.avatar = (ImageView) view.findViewById(R.id.image_view);
@@ -75,6 +75,8 @@ public class EditAnimalFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Log.w("IMPORTANT", String.valueOf(this.selectedAnimal));
 
         assert animalViewModel.getAnimals() != null;
 
@@ -100,9 +102,10 @@ public class EditAnimalFragment extends Fragment {
         });
 
         this.backButton.setOnClickListener(v -> {
-            // Build Information Bundle for sharing state with EditAnimal Fragment
+            // Build Information Bundle for sharing state with DisplayAnimal Fragment
             Bundle bundle = new Bundle();
             bundle.putInt("selectedAnimal", this.selectedAnimal);
+            getParentFragmentManager().setFragmentResult("animal", bundle);
 
             // Load new fragment with bundled information and switch to the other fragment
             DisplayAnimalFragment fragment = new DisplayAnimalFragment();

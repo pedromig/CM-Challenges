@@ -6,7 +6,9 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.ListFragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,14 +20,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.firstchallenge.R;
 import com.example.firstchallenge.activities.MainActivity;
 import com.example.firstchallenge.models.AnimalViewModel;
+import com.example.firstchallenge.util.Animal;
 
 import java.time.Duration;
 import java.util.Objects;
@@ -60,14 +65,19 @@ public class DisplayAnimalFragment extends Fragment {
         // Fetch Context for the Fragment Change listener
         this.fragmentChangeListener = (MainActivity) inflater.getContext();
 
-        // Fetch select Position from Bundled Arguments
-        if (getArguments() != null) {
-            this.selectedAnimal = getArguments().getInt("selectedAnimal");
+        // Fetch arguments passed to the fragment
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            this.selectedAnimal = bundle.getInt("selectedAnimal");
         }
-        Log.w("IMPORTANT", String.valueOf(this.selectedAnimal));
 
         // Fetch Animal Spinner
         this.spinner = (Spinner) view.findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+            R.array.animal_names, android.R.layout.simple_spinner_dropdown_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
+        this.spinner.setAdapter(adapter);
 
         // Fetch Image view
         this.avatar = (ImageView) view.findViewById(R.id.avatar);
@@ -88,27 +98,17 @@ public class DisplayAnimalFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        setDisplayFragmentAnimal(selectedAnimal);
+
         // Set Spinner Listener
         this.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 assert animalViewModel.getAnimals() != null;
                 assert position < animalViewModel.getAnimals().size();
-                Log.e("IMPORTANT", "FDS" );
 
-                // Fetch & Update Image View
-                avatar.setImageResource(animalViewModel.getAnimals().get(position).getAvatar());
-
-                // Fetch & Update Text Views
-                String currentOwner = animalViewModel.getAnimals().get(position).getOwner();
-                String currentName = animalViewModel.getAnimals().get(position).getName();
-                String currentAge = String.valueOf(animalViewModel.getAnimals()
-                                                                  .get(position)
-                                                                  .getAge());
-
-                name.setText(currentName);
-                owner.setText(currentOwner);
-                age.setText(currentAge);
+                // Update Animal shown in the fragment
+                setDisplayFragmentAnimal(position);
 
                 // Save Selected Position
                 selectedAnimal = position;
@@ -120,7 +120,13 @@ public class DisplayAnimalFragment extends Fragment {
 
         // Set Play Music Button Listener
         this.musicButton.setOnClickListener(v -> {
-
+            Animal animal = animalViewModel.getAnimals().get(this.selectedAnimal);
+            if (animal.getAvatar() == R.drawable.frog) {
+                MediaPlayer.create(this.getContext(), R.raw.frog).start();
+            } else {
+                Toast.makeText(this.getContext(), "No Sound Available", Toast.LENGTH_SHORT)
+                     .show();
+            }
         });
 
 
@@ -135,6 +141,21 @@ public class DisplayAnimalFragment extends Fragment {
             fragment.setArguments(bundle);
             fragmentChangeListener.replaceFragment(fragment);
         });
+    }
+
+    private void setDisplayFragmentAnimal(int position) {
+        // Fetch & Update Image View
+        avatar.setImageResource(animalViewModel.getAnimals().get(position).getAvatar());
+
+        // Fetch & Update Text Views
+        String currentOwner = animalViewModel.getAnimals().get(position).getOwner();
+        String currentName = animalViewModel.getAnimals().get(position).getName();
+        String currentAge = String.valueOf(animalViewModel.getAnimals()
+                                                          .get(position)
+                                                          .getAge());
+        name.setText(currentName);
+        owner.setText(currentOwner);
+        age.setText(currentAge);
     }
 }
 
