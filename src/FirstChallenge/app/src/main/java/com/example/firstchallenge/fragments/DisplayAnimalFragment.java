@@ -63,6 +63,7 @@ public class DisplayAnimalFragment extends Fragment {
 
         // Fetch Animal Spinner
         this.spinner = (Spinner) view.findViewById(R.id.spinner);
+        this.spinner.setSelection(this.selectedAnimal);
 
         // Fetch Image view
         this.avatar = (ImageView) view.findViewById(R.id.avatar);
@@ -83,8 +84,6 @@ public class DisplayAnimalFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setDisplayFragmentAnimal(selectedAnimal);
-
         // Set Spinner Listener
         this.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -100,7 +99,9 @@ public class DisplayAnimalFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+                selectedAnimal = 0;
+            }
         });
 
         // Set Play Music Button Listener
