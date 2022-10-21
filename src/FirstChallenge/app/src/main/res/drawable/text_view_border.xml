@@ -11,6 +11,6 @@
         android:color="#ccc" />
 
     <!--- This is the background color -->
-    <solid android:color="#ccc"/>
+    <solid android:color="#99F9E79F"/>
 
 </shape>

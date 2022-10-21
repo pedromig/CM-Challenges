@@ -26,9 +26,9 @@ public class MainActivity extends AppCompatActivity implements FragmentChangeLis
         super.onCreate(savedInstanceState);
 
         // Create Animals
-        Animal frog = new Animal("Frog", "Pedro", 2, R.drawable.frog);
-        Animal rhino = new Animal("Rhino", "Joana", 4, R.drawable.rhino);
-        Animal snail = new Animal("Snail", "Josefina", 1, R.drawable.snail);
+        Animal frog = new Animal("Evil Frog", "Pedro", 2, R.drawable.frog);
+        Animal rhino = new Animal("The Rhino: a real unicorn", "Joana", 4, R.drawable.rhino);
+        Animal snail = new Animal("Vicious Snail", "Josefina", 1, R.drawable.snail);
 
         // Init Shared Animal View Model With Data
         AnimalViewModel animalViewModel =
@@ -38,10 +38,9 @@ public class MainActivity extends AppCompatActivity implements FragmentChangeLis
         // Access Fragment Manager
         FragmentManager fm = getSupportFragmentManager();
 
-        // Instantiate Edit/Display Animal Fragments
+        // Instantiate Display Animal Fragment
         fm.beginTransaction()
           .setReorderingAllowed(true)
-          .add(R.id.fragment_container, new EditAnimalFragment())
           .add(R.id.fragment_container, new DisplayAnimalFragment())
           .commit();
     }

@@ -1,6 +1,5 @@
 package com.example.firstchallenge.fragments;
 
-import androidx.fragment.app.FragmentResultListener;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -28,6 +27,8 @@ public class EditAnimalFragment extends Fragment {
     private AnimalViewModel animalViewModel;
     private FragmentChangeListener fragmentChangeListener;
     private int selectedAnimal;
+
+    private TextView title;
 
     private ImageView avatar;
 
@@ -57,8 +58,11 @@ public class EditAnimalFragment extends Fragment {
             this.selectedAnimal = bundle.getInt("selectedAnimal");
         }
 
+        // Fetch Title Text View
+        this.title = (TextView) view.findViewById(R.id.edit_title);
+
         // Fetch Image view
-        this.avatar = (ImageView) view.findViewById(R.id.image_view);
+        this.avatar = (ImageView) view.findViewById(R.id.avatar);
 
         // Fetch Edit Text Views
         this.owner = (EditText) view.findViewById(R.id.edit_text_owner);
@@ -82,6 +86,10 @@ public class EditAnimalFragment extends Fragment {
 
         // Fetch current animal
         Animal animal = animalViewModel.getAnimals().get(this.selectedAnimal);
+
+        // Fetch current animal species
+        String[] species = getResources().getStringArray(R.array.animal_species);
+        this.title.setText(species[this.selectedAnimal]);
 
         // Display selected animal information
         this.avatar.setImageResource(animal.getAvatar());

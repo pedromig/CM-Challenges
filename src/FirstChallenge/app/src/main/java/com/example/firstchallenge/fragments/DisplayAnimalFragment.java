@@ -1,13 +1,7 @@
 package com.example.firstchallenge.fragments;
 
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentResultListener;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.fragment.app.ListFragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
@@ -15,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,9 +24,6 @@ import com.example.firstchallenge.R;
 import com.example.firstchallenge.activities.MainActivity;
 import com.example.firstchallenge.models.AnimalViewModel;
 import com.example.firstchallenge.util.Animal;
-
-import java.time.Duration;
-import java.util.Objects;
 
 public class DisplayAnimalFragment extends Fragment {
 
@@ -73,11 +63,6 @@ public class DisplayAnimalFragment extends Fragment {
 
         // Fetch Animal Spinner
         this.spinner = (Spinner) view.findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-            R.array.animal_names, android.R.layout.simple_spinner_dropdown_item
-        );
-        adapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
-        this.spinner.setAdapter(adapter);
 
         // Fetch Image view
         this.avatar = (ImageView) view.findViewById(R.id.avatar);

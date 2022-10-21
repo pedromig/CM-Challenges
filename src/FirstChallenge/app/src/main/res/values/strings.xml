@@ -1,11 +1,19 @@
 <resources>
-    <string name="app_name">FirstChallenge</string>
+    <string name="app_name">First Challenge</string>
     <string name="app_background_description">App Background Image</string>
     <string name="title_animals">Animals</string>
+    <string name="animals_spinner">Spinner</string>
     <string name="animal_image">The image of the animal</string>
-    <string name="animal_spinner_prompt">Select an animal</string>
+    <string name="animal_spinner_prompt">Select the animal</string>
+    <string name="owner_title">Owner</string>
+    <string name="name_title">Name</string>
+    <string name="age_title">Age</string>
+    <string name="back_button_title">Back</string>
+    <string name="save_button_title">Save</string>
+    <string name="play_music_title">Play Music</string>
+    <string name="edit_button_title">Edit</string>
 
-    <string-array name="animal_names">
+    <string-array name="animal_species">
         <item>Frog</item>
         <item>Rhino</item>
         <item>Snail</item>
