@@ -41,7 +41,6 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
-                android:background="@drawable/spinner_bg"
                 android:contentDescription="@string/animals_spinner"
                 android:entries="@array/animal_species"
                 android:minHeight="48dp"
