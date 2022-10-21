@@ -35,12 +35,13 @@
             <Spinner
                 android:id="@+id/spinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_gravity="center"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
-                android:background="@drawable/buttons_bg"
+                android:background="@drawable/spinner_bg"
                 android:contentDescription="@string/animals_spinner"
                 android:entries="@array/animal_species"
                 android:minHeight="48dp"
@@ -54,6 +55,7 @@
             </Spinner>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

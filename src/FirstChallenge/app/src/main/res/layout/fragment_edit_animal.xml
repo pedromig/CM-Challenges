@@ -15,6 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -43,31 +44,31 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
                     android:contentDescription="@string/animal_image"
                     android:scaleType="centerCrop"
                     android:src="@drawable/frog"
+                    app:layout_constraintBaseline_toTopOf="parent"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline4"
-                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/guideline3"
                     app:layout_constraintStart_toStartOf="@id/guideline3"
-                    app:layout_constraintBaseline_toTopOf="parent"/>
+                    tools:layout_editor_absoluteY="0dp" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.36" />
+                    app:layout_constraintGuide_percent="0.29" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.64" />
+                    app:layout_constraintGuide_percent="0.71" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -137,7 +138,8 @@
                     android:gravity="center_horizontal|fill|center"
                     android:text="@string/name_title"
                     android:textAlignment="center"
-                    android:textSize="22sp" />
+                    android:textSize="22sp"
+                    android:labelFor="@+id/edit_text_name"/>
 
                 <EditText
                     android:id="@+id/edit_text_name"
@@ -149,7 +151,8 @@
                     android:textAlignment="center"
                     android:textSize="20sp"
                     android:layout_gravity="center_horizontal|fill|center"
-                    android:autofillHints="Write the animal name" />
+                    android:autofillHints="Write the animal name"
+                    android:inputType="text"/>
             </LinearLayout>
 
 
@@ -163,7 +166,7 @@
                 android:layout_weight="2"
                 android:orientation="vertical"
                 android:weightSum="2"
-                app:layout_constraintBottom_toTopOf="@+id/button_linear_layout"
+                app:layout_constraintBottom_toTopOf="@+id/guideline9"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -178,7 +181,8 @@
                     android:layout_weight="1"
                     android:text="@string/age_title"
                     android:textAlignment="center"
-                    android:textSize="22sp" />
+                    android:textSize="22sp"
+                    android:labelFor="@+id/edit_text_age"/>
 
                 <EditText
                     android:id="@+id/edit_text_age"
@@ -189,7 +193,8 @@
                     android:background="@drawable/text_view_border"
                     android:textAlignment="center"
                     android:textSize="20sp"
-                    android:autofillHints="Write the animal age" />
+                    android:autofillHints="Write the animal age"
+                    android:inputType="text" />
 
             </LinearLayout>
 
@@ -207,7 +212,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/age_linear_layout">
+                app:layout_constraintTop_toBottomOf="@+id/guideline9">
 
                 <Button
                     android:id="@+id/back_button"
@@ -229,7 +234,7 @@
                     android:text="@string/save_button_title"
                     android:textAlignment="center"
                     android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"/>
             </LinearLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
