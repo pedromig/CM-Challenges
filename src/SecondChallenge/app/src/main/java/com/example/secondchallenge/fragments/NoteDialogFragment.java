@@ -14,7 +14,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.secondchallenge.R;
 import com.example.secondchallenge.adapters.NotesAdapter;
@@ -52,19 +54,43 @@ public class NoteDialogFragment extends DialogFragment {
 
         assert adapter != null;
         builder.setView(view).setMessage("Note Title")
-               .setPositiveButton(R.string.save, (dialog, id) -> {
-                   notesViewModel.updateNote(
-                       note,
-                       title.getText().toString(),
-                       note.getBody(),
-                       note.getOrigin()
-                   );
-                   adapter.notifyItemChanged(this.clickedPosition);
-               })
+               .setPositiveButton(R.string.save, (dialog, id) -> {})
                .setNegativeButton(R.string.delete, (dialog, id) -> {
                    notesViewModel.removeNotes(note);
                    adapter.notifyDataSetChanged();
                });
-        return builder.create();
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        // Customize Alert Dialog Button Behaviour
+        Button btn = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        btn.setOnClickListener(v -> {
+            String txt = title.getText().toString();
+            Note other = notesViewModel.findNoteByTitle(txt);
+            if (txt.isEmpty()) {
+                Toast toast = Toast.makeText(this.getContext(), "Title cannot be empty!",
+                    Toast.LENGTH_SHORT
+                );
+                toast.show();
+            } else if (other != null && other != note) {
+                Toast toast = Toast.makeText(this.getContext(), "Note with this name already " +
+                        "exists!",
+                    Toast.LENGTH_SHORT
+                );
+                toast.show();
+            } else {
+                notesViewModel.updateNote(
+                    note,
+                    title.getText().toString(),
+                    note.getBody(),
+                    note.getOrigin()
+                );
+                adapter.notifyItemChanged(this.clickedPosition);
+                dialog.dismiss();
+            }
+        });
+
+        return dialog;
     }
 }

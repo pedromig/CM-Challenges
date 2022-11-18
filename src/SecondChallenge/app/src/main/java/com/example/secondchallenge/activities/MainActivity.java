@@ -15,7 +15,9 @@ import com.example.secondchallenge.R;
 import com.example.secondchallenge.fragments.MQTTPopupDialogFragment;
 import com.example.secondchallenge.listeners.FragmentChangeListener;
 import com.example.secondchallenge.fragments.ListNotesFragment;
+import com.example.secondchallenge.models.Note;
 import com.example.secondchallenge.models.NotesViewModel;
+import com.example.secondchallenge.util.AsyncNoteLoader;
 import com.example.secondchallenge.util.MQTT;
 import com.example.secondchallenge.util.NotesDatabase;
 
@@ -24,26 +26,40 @@ import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements FragmentChangeListener {
+public class MainActivity extends AppCompatActivity implements FragmentChangeListener,
+    AsyncNoteLoader.Callback {
 
     private MQTT mqttService;
+    private NotesViewModel notesViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         // Open Database Connection
         NotesDatabase database = new NotesDatabase(this);
 
         // Init Shared View Model With Data
-        NotesViewModel notesViewModel = new ViewModelProvider(this).get(NotesViewModel.class);
+        this.notesViewModel = new ViewModelProvider(this).get(NotesViewModel.class);
         notesViewModel.setDatabase(database);
+
+        // Cenas
+        AsyncNoteLoader loader = new AsyncNoteLoader(database);
+        loader.executeAsync(this);
 
         // Start Mqtt Service
         this.mqttService = setupMqttService();
+    }
+
+    @Override
+    public void onComplete(ArrayList<Note> notes) {
+        // Fill ViewModel with information
+        this.notesViewModel.setNotes(notes);
+
+        setContentView(R.layout.activity_main);
 
         // Set up Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -52,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements FragmentChangeLis
         // Instantiate ListNotes Fragment
         replaceFragment(new ListNotesFragment());
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -70,10 +87,12 @@ public class MainActivity extends AppCompatActivity implements FragmentChangeLis
     }
 
     private MQTT setupMqttService() {
-        MQTT mqttService = new MQTT(getApplicationContext(), "notes-example-app", "");
+        MQTT mqttService = new MQTT(getApplicationContext(), "notes-example-app", "lol");
         mqttService.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean reconnect, String serverURI) {
+                System.out.println(reconnect);
+                System.out.println(serverURI);
                 System.out.println("CONNECTION COMPLETE");
             }
 
@@ -97,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements FragmentChangeLis
         mqttService.connect();
         return mqttService;
     }
+
 
     public MQTT getMqttService() {
         return this.mqttService;

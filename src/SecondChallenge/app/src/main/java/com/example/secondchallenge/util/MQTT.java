@@ -99,10 +99,5 @@ public class MQTT {
             Log.w(TAG, "Unsubscribed! (topic = " + topic + " )");
         }
     }
-
-
-    public String getName() {
-        return name;
-    }
 }
 

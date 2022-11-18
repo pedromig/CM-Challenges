@@ -4,8 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
-import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -87,9 +85,18 @@ public class EditNoteFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Note other = this.notesViewModel.findNoteByTitle(this.title.getText()
+                                                                  .toString());
         if (item.getItemId() == R.id.action_save) {
             if (this.title.getText().toString().isEmpty()) {
                 Toast toast = Toast.makeText(this.getContext(), "Title cannot be empty!",
+                    Toast.LENGTH_SHORT
+                );
+                toast.show();
+                return super.onOptionsItemSelected(item);
+            } else if (other != null && other != this.note) {
+                Toast toast = Toast.makeText(this.getContext(), "A note with this name " +
+                        "already exists!",
                     Toast.LENGTH_SHORT
                 );
                 toast.show();
@@ -115,6 +122,13 @@ public class EditNoteFragment extends Fragment {
                 toast.show();
                 return super.onOptionsItemSelected(item);
             }
+            if (other == null) {
+                Toast toast = Toast.makeText(this.getContext(), "You must save the note first!",
+                    Toast.LENGTH_SHORT
+                );
+                toast.show();
+                return super.onOptionsItemSelected(item);
+            }
             MQTTPublishDialogFragment fragment = new MQTTPublishDialogFragment(
                 this.mqttService,
                 note
@@ -122,14 +136,11 @@ public class EditNoteFragment extends Fragment {
             fragment.show(getChildFragmentManager(), "MQTTPublishDialog");
             return true;
         } else if (item.getItemId() == R.id.action_exit) {
-            // Nothing to be done here (this is ugly but it is what it is)
+            ListNotesFragment fragment = new ListNotesFragment();
+            this.fragmentChangeListener.replaceFragment(fragment);
         } else {
             return super.onOptionsItemSelected(item);
         }
-
-        // Load new fragment with bundled information and switch to the other fragment
-        ListNotesFragment fragment = new ListNotesFragment();
-        this.fragmentChangeListener.replaceFragment(fragment);
         return true;
     }
 

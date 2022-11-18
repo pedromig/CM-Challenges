@@ -2,9 +2,13 @@ package com.example.secondchallenge.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,19 +53,34 @@ public class MQTTPopupDialogFragment extends DialogFragment {
 
         builder.setView(view)
                .setMessage("New Note")
-               .setPositiveButton("Accept", (dialog, id) -> {
-                   while (title.getText().toString().isEmpty()) {
-                       Toast toast = Toast.makeText(this.getContext(), "Title cannot be empty!",
-                           Toast.LENGTH_SHORT
-                       );
-                       toast.show();
-                   }
-                   Note note = new Note(title.getText().toString(), this.message, this.origin);
-                   notesViewModel.addNotes(note);
-               })
+               .setPositiveButton("Accept", (dialog, id) -> {})
                .setNegativeButton("Reject", (dialog, id) -> {
                    // It is what it is...
                });
-        return builder.create();
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        // Customize Alert Dialog Button Behaviour
+        Button btn = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        btn.setOnClickListener(v -> {
+            String txt = title.getText().toString();
+            if (txt.isEmpty()) {
+                Toast toast = Toast.makeText(this.getContext(), "Title cannot be empty!",
+                    Toast.LENGTH_SHORT
+                );
+                toast.show();
+            } else if (notesViewModel.findNoteByTitle(txt) != null) {
+                Toast toast = Toast.makeText(this.getContext(), "Note with this name already " +
+                        "exists!",
+                    Toast.LENGTH_SHORT
+                );
+                toast.show();
+            } else {
+                Note note = new Note(title.getText().toString(), this.message, this.origin);
+                notesViewModel.addNotes(note);
+                dialog.dismiss();
+            }
+        });
+        return dialog;
     }
 }
