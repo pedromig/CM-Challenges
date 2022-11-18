@@ -12,16 +12,23 @@ import android.os.Bundle;
 import android.view.Menu;
 
 import com.example.secondchallenge.R;
+import com.example.secondchallenge.fragments.MQTTPopupDialogFragment;
 import com.example.secondchallenge.listeners.FragmentChangeListener;
 import com.example.secondchallenge.fragments.ListNotesFragment;
-import com.example.secondchallenge.models.Note;
 import com.example.secondchallenge.models.NotesViewModel;
+import com.example.secondchallenge.util.MQTT;
 import com.example.secondchallenge.util.NotesDatabase;
 
-import java.util.ArrayList;
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+
+import java.sql.SQLOutput;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements FragmentChangeListener {
+
+    private MQTT mqttService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +39,11 @@ public class MainActivity extends AppCompatActivity implements FragmentChangeLis
         NotesDatabase database = new NotesDatabase(this);
 
         // Init Shared View Model With Data
-        NotesViewModel notesViewModel =
-            new ViewModelProvider(this).get(NotesViewModel.class);
+        NotesViewModel notesViewModel = new ViewModelProvider(this).get(NotesViewModel.class);
         notesViewModel.setDatabase(database);
+
+        // Start Mqtt Service
+        this.mqttService = setupMqttService();
 
         // Set up Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -58,5 +67,38 @@ public class MainActivity extends AppCompatActivity implements FragmentChangeLis
         fragmentTransaction.replace(R.id.fragment_container, fragment, fragment.toString());
         fragmentTransaction.addToBackStack(fragment.toString());
         fragmentTransaction.commit();
+    }
+
+    private MQTT setupMqttService() {
+        MQTT mqttService = new MQTT(getApplicationContext(), "notes-example-app", "");
+        mqttService.setCallback(new MqttCallbackExtended() {
+            @Override
+            public void connectComplete(boolean reconnect, String serverURI) {
+                System.out.println("CONNECTION COMPLETE");
+            }
+
+            @Override
+            public void connectionLost(Throwable cause) {
+                System.out.println("CONNECTION LOST");
+            }
+
+            @Override
+            public void messageArrived(String topic, MqttMessage message) {
+                String msg = message.toString();
+                MQTTPopupDialogFragment fragment = new MQTTPopupDialogFragment(topic, msg);
+                fragment.show(getSupportFragmentManager(), "MqttPopupDialog");
+            }
+
+            @Override
+            public void deliveryComplete(IMqttDeliveryToken token) {
+                System.out.println("DELIVERED");
+            }
+        });
+        mqttService.connect();
+        return mqttService;
+    }
+
+    public MQTT getMqttService() {
+        return this.mqttService;
     }
 }

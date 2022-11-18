@@ -11,4 +11,9 @@
         android:icon="@drawable/ic_action_save"
         app:showAsAction="ifRoom"
         android:title="" />
+    <item
+        android:id="@+id/action_publish"
+        android:icon="@drawable/ic_action_mqtt"
+        android:title="@string/publish"
+        app:showAsAction="ifRoom" />
 </menu>

@@ -26,12 +26,12 @@ import com.example.secondchallenge.listeners.FragmentChangeListener;
 import com.example.secondchallenge.listeners.NoteFilterListener;
 import com.example.secondchallenge.models.Note;
 import com.example.secondchallenge.models.NotesViewModel;
-
-import java.util.Objects;
+import com.example.secondchallenge.util.MQTT;
 
 public class ListNotesFragment extends Fragment {
+
+    private MQTT mqttService;
     private FragmentChangeListener fragmentChangeListener;
-    private NotesViewModel notesViewModel;
 
     private RecyclerView notesRecyclerView;
 
@@ -44,17 +44,18 @@ public class ListNotesFragment extends Fragment {
 
         // Fetch Context for the Fragment Change listener
         this.fragmentChangeListener = (MainActivity) inflater.getContext();
+        // Fetch MqttService
+        this.mqttService = ((MainActivity) requireActivity()).getMqttService();
 
         // Setup Action Bar
         setHasOptionsMenu(true);
 
         // Fetch Notes
-        this.notesViewModel =
-            new ViewModelProvider(requireActivity()).get(NotesViewModel.class);
+        NotesViewModel notesViewModel = new ViewModelProvider(requireActivity()).get(NotesViewModel.class);
         NotesAdapter notesAdapter = new NotesAdapter(
             getChildFragmentManager(),
             this.fragmentChangeListener,
-            this.notesViewModel.getNotes()
+            notesViewModel.getNotes()
         );
 
         // Recycler View Layout Manager
@@ -101,13 +102,14 @@ public class ListNotesFragment extends Fragment {
             fragment.setArguments(bundle);
             this.fragmentChangeListener.replaceFragment(fragment);
         } else if (item.getItemId() == R.id.action_subscribe) {
-            MQTTDialogFragment fragment = new MQTTDialogFragment();
-            fragment.show(getChildFragmentManager(), "NoteDialog");
+            MQTTDialogFragment fragment = new MQTTDialogFragment(this.mqttService);
+            fragment.show(getChildFragmentManager(), "MQTTSubDialog");
         } else {
             return super.onOptionsItemSelected(item);
         }
         return true;
     }
+
 
     public RecyclerView getNotesRecyclerView() {
         return notesRecyclerView;

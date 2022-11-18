@@ -23,11 +23,14 @@ import com.example.secondchallenge.activities.MainActivity;
 import com.example.secondchallenge.listeners.FragmentChangeListener;
 import com.example.secondchallenge.models.Note;
 import com.example.secondchallenge.models.NotesViewModel;
+import com.example.secondchallenge.util.MQTT;
 
 public class EditNoteFragment extends Fragment {
     private int selectedNote;
     private NotesViewModel notesViewModel;
     private FragmentChangeListener fragmentChangeListener;
+
+    private MQTT mqttService;
 
     private EditText title;
     private EditText body;
@@ -43,6 +46,10 @@ public class EditNoteFragment extends Fragment {
 
         // Fetch Notes View Model
         this.notesViewModel = new ViewModelProvider(requireActivity()).get(NotesViewModel.class);
+
+        // Fetch MqttService
+        this.mqttService = ((MainActivity) requireActivity()).getMqttService();
+
 
         // Fetch Context for the Fragment Change listener
         this.fragmentChangeListener = (MainActivity) inflater.getContext();
@@ -100,6 +107,20 @@ public class EditNoteFragment extends Fragment {
                     note.getOrigin()
                 );
             }
+        } else if (item.getItemId() == R.id.action_publish) {
+            if (this.title.getText().toString().isEmpty()) {
+                Toast toast = Toast.makeText(this.getContext(), "Title cannot be empty!",
+                    Toast.LENGTH_SHORT
+                );
+                toast.show();
+                return super.onOptionsItemSelected(item);
+            }
+            MQTTPublishDialogFragment fragment = new MQTTPublishDialogFragment(
+                this.mqttService,
+                note
+            );
+            fragment.show(getChildFragmentManager(), "MQTTPublishDialog");
+            return true;
         } else if (item.getItemId() == R.id.action_exit) {
             // Nothing to be done here (this is ugly but it is what it is)
         } else {
@@ -111,6 +132,7 @@ public class EditNoteFragment extends Fragment {
         this.fragmentChangeListener.replaceFragment(fragment);
         return true;
     }
+
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {

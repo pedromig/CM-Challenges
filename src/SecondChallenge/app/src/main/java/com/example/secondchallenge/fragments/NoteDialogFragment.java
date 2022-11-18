@@ -51,7 +51,7 @@ public class NoteDialogFragment extends DialogFragment {
         title.setText(note.getTitle());
 
         assert adapter != null;
-        builder.setView(view)
+        builder.setView(view).setMessage("Note Title")
                .setPositiveButton(R.string.save, (dialog, id) -> {
                    notesViewModel.updateNote(
                        note,
