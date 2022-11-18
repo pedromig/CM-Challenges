@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_search"
+        android:hint="@string/search"
+        android:icon="@drawable/ic_action_search"
+        android:title="@string/filter_notes"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView" />
+
+    <item
+        android:id="@+id/action_new_note"
+        android:icon="@drawable/ic_action_note_add"
+        android:title="@string/new_note"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_subscribe"
+        android:icon="@drawable/ic_action_mqtt"
+        android:title="@string/subscribe"
+        app:showAsAction="ifRoom" />
+</menu>

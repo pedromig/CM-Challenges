@@ -80,8 +80,6 @@ public class EditAnimalFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Log.w("IMPORTANT", String.valueOf(this.selectedAnimal));
-
         assert animalViewModel.getAnimals() != null;
 
         // Fetch current animal
