@@ -41,7 +41,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (Note item : notesFull) {
                     if (item.getTitle().toLowerCase().contains(filterPattern.toLowerCase())) {
-                       filtered.add(item);
+                        filtered.add(item);
                     }
                 }
             }
@@ -77,7 +77,9 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull NotesAdapter.ViewHolder holder, int position) {
         Note model = notes.get(position);
+        String origin = model.getOrigin();
         holder.getTitle().setText(model.getTitle());
+        holder.getOrigin().setText("Origin: " + (origin.equals("self") ? "Phone" : origin));
         holder.getView()
               .setOnClickListener(new NoteClickListener(position, fragmentChangeListener));
         holder.getView()
@@ -96,10 +98,16 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView title;
+        private final TextView origin;
 
         public ViewHolder(@NonNull View view) {
             super(view);
             this.title = view.findViewById(R.id.note_title);
+            this.origin = view.findViewById(R.id.note_origin);
+        }
+
+        public TextView getOrigin() {
+            return origin;
         }
 
         public TextView getTitle() {

@@ -33,7 +33,6 @@ public class ListNotesFragment extends Fragment {
     private FragmentChangeListener fragmentChangeListener;
     private NotesViewModel notesViewModel;
 
-    private SearchView searchView;
     private RecyclerView notesRecyclerView;
 
     @Override
@@ -101,6 +100,9 @@ public class ListNotesFragment extends Fragment {
             EditNoteFragment fragment = new EditNoteFragment();
             fragment.setArguments(bundle);
             this.fragmentChangeListener.replaceFragment(fragment);
+        } else if (item.getItemId() == R.id.action_subscribe) {
+            MQTTDialogFragment fragment = new MQTTDialogFragment();
+            fragment.show(getChildFragmentManager(), "NoteDialog");
         } else {
             return super.onOptionsItemSelected(item);
         }

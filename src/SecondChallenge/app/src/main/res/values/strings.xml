@@ -10,4 +10,8 @@
     <string name="filter_notes">Filter Notes</string>
     <string name="new_note">New Note</string>
     <string name="subscribe">Subscribe</string>
+    <string name="origin">origin</string>
+    <string name="note_title_dialog">Note Title</string>
+    <string name="title">Title</string>
+    <string name="topic">Topic</string>
 </resources>
