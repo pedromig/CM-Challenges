@@ -10,7 +10,7 @@
     app:cardPreventCornerOverlap="true"
     app:cardUseCompatPadding="false">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -25,18 +25,38 @@
             android:text="@string/note_title"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:padding="2dp"/>
 
         <TextView
-            android:id="@+id/note_origin"
+            android:id="@+id/note_body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginBottom="10dp"
-            android:text="@string/origin"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:textStyle="normal" />
+            android:text="@string/body"
+            android:textColor="#5E5E5E"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            android:layout_below="@+id/note_title"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:padding="2dp"/>
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/note_origin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/origin"
+            android:textColor="#5E5E5E"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            android:layout_below="@+id/note_body"
+            android:layout_alignParentRight="true"
+            android:paddingRight="10dp"
+            />
+
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>

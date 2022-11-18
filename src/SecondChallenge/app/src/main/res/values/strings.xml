@@ -16,4 +16,5 @@
     <string name="topic">Topic</string>
     <string name="publish">Publish</string>
     <string name="topic_path">/topic</string>
+    <string name="body">body</string>
 </resources>

@@ -79,6 +79,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
         Note model = notes.get(position);
         String origin = model.getOrigin();
         holder.getTitle().setText(model.getTitle());
+        holder.getBody().setText(model.getBody());
         holder.getOrigin().setText("Origin: " + (origin.equals("self") ? "Phone" : origin));
         holder.getView()
               .setOnClickListener(new NoteClickListener(position, fragmentChangeListener));
@@ -99,10 +100,12 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView title;
         private final TextView origin;
+        private final TextView body;
 
         public ViewHolder(@NonNull View view) {
             super(view);
             this.title = view.findViewById(R.id.note_title);
+            this.body = view.findViewById(R.id.note_body);
             this.origin = view.findViewById(R.id.note_origin);
         }
 
@@ -113,6 +116,8 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
         public TextView getTitle() {
             return title;
         }
+
+        public TextView getBody() { return body; };
 
         public View getView() {
             return this.itemView;

@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.secondchallenge.models.Note;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class NotesDatabase extends SQLiteOpenHelper {
@@ -71,7 +72,6 @@ public class NotesDatabase extends SQLiteOpenHelper {
             );
         }
     }
-
 
     @Override
     public void onCreate(SQLiteDatabase db) {
