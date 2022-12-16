@@ -1,4 +1,4 @@
-package com.example.secondchallenge.util;
+package com.example.thirdchallenge.util;
 
 import android.content.Context;
 import android.util.Log;
@@ -64,21 +64,11 @@ public class MQTT {
             mqttAndroidClient.subscribe(topic, 0, null, new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
-                    Toast toast = Toast.makeText(mqttAndroidClient.getContext(),
-                        "Subscriber to topic " + topic + "!",
-                        Toast.LENGTH_SHORT
-                    );
-                    toast.show();
                     Log.w(TAG, "Subscribed! (topic = " + topic + " )");
                 }
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    Toast toast = Toast.makeText(mqttAndroidClient.getContext(),
-                        "Subscription Failed Successfully",
-                        Toast.LENGTH_SHORT
-                    );
-                    toast.show();
                     Log.w(TAG, "Subscribed fail!");
                 }
             });
@@ -88,11 +78,6 @@ public class MQTT {
     public void unsubscribeTopic(String topic) {
         if (topic != null && !topic.isEmpty()) {
             mqttAndroidClient.unsubscribe(topic);
-            Toast toast = Toast.makeText(mqttAndroidClient.getContext(),
-                "Unsubscribed from topic" + topic + "!",
-                Toast.LENGTH_SHORT
-            );
-            toast.show();
             Log.w(TAG, "Unsubscribed! (topic = " + topic + " )");
         }
     }

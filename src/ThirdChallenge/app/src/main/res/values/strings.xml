@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ThirdChallenge</string>
+    <string name="textview">TextView</string>
+    <string name="threshold">Temperature Range</string>
+    <string name="filter">Filter</string>
+    <string name="temperature_filter">Temperature</string>
+    <string name="humidity_filter">Humidity</string>
+    <string name="temperature_view">Temperature</string>
+    <string name="humidity_view">Humidity</string>
+</resources>
