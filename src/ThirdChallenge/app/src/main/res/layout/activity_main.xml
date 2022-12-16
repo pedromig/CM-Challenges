@@ -4,14 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MainActivity">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/bg"
-        android:fitsSystemWindows="true"
-        android:scaleType="centerCrop"/>
+    tools:context=".activities.MainActivity"
+    android:background="@color/light_blue">
 
 
     <androidx.fragment.app.FragmentContainerView
@@ -20,6 +14,5 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         tools:layout="@layout/dashboard_fragment"
-        android:layout_margin="20dp"
-        android:background="@drawable/fbg"/>
+        android:layout_margin="20dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

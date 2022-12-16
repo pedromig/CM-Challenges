@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".fragments.DashboardFragment"
     tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="0dp"
-    >
+    tools:layout_editor_absoluteY="0dp">
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"
@@ -15,8 +14,8 @@
         android:layout_height="250dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:flow_horizontalAlign="center"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,52 +23,53 @@
         android:id="@+id/threshold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="19dp"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="19dp"
         android:text="@string/filter"
-        android:textSize="25dp"
         android:textAlignment="center"
-        app:layout_constraintTop_toBottomOf="@+id/chart"
+        android:textSize="19sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chart" />
 
     <Switch
         android:id="@+id/switch_temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:textSize="18dp"
         android:text="@string/temperature_filter"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/switch_humidity"
-        app:layout_constraintHorizontal_bias="0.44"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/threshold"
-        tools:ignore="MissingConstraints,UseSwitchCompatOrMaterialXml" />
+        tools:ignore="MissingConstraints,UseSwitchCompatOrMaterialXml,TouchTargetSizeCheck" />
 
     <Switch
         android:id="@+id/switch_humidity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="64dp"
-        android:textSize="18dp"
         android:text="@string/humidity_filter"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/switch_temperature"
         app:layout_constraintTop_toBottomOf="@+id/threshold"
-        tools:ignore="MissingConstraints,UseSwitchCompatOrMaterialXml" />
+        tools:ignore="MissingConstraints,UseSwitchCompatOrMaterialXml,TouchTargetSizeCheck" />
 
     <TextView
         android:id="@+id/threshold3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="@string/threshold_temperature"
         android:textAlignment="center"
-        android:textSize="19dp"
+        android:textSize="19sp"
         app:layout_constraintBottom_toTopOf="@+id/slidertemp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch_temperature"
-        android:layout_marginTop="20dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/switch_temperature" />
 
     <com.google.android.material.slider.RangeSlider
         android:id="@+id/slidertemp"
@@ -79,9 +79,9 @@
         android:stepSize="0.5"
         android:valueFrom="0.0"
         android:valueTo="50.0"
+        app:flow_horizontalAlign="center"
         app:labelBehavior="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:flow_horizontalAlign="center"
         app:layout_constraintTop_toBottomOf="@+id/threshold3"
         app:values="@array/initial_range_slider_values" />
 
@@ -89,14 +89,14 @@
         android:id="@+id/threshold4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="@string/threshold_humidity"
         android:textAlignment="center"
-        android:textSize="19dp"
+        android:textSize="19sp"
+        app:layout_constraintBottom_toTopOf="@+id/sliderhum"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/slidertemp"
-        app:layout_constraintBottom_toTopOf="@+id/sliderhum"
-        android:layout_marginTop="20dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/slidertemp" />
 
     <com.google.android.material.slider.RangeSlider
         android:id="@+id/sliderhum"
@@ -106,11 +106,11 @@
         android:stepSize="1"
         android:valueFrom="0.0"
         android:valueTo="100"
-        app:labelBehavior="visible"
-        app:layout_constraintEnd_toEndOf="parent"
         app:flow_horizontalAlign="center"
-        app:layout_constraintTop_toBottomOf="@+id/threshold4"
+        app:labelBehavior="visible"
         app:layout_constraintBottom_toTopOf="@+id/image_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/threshold4"
         app:values="@array/initial_range_slider_values" />
 
     <ImageButton
@@ -119,13 +119,13 @@
         android:layout_height="50dp"
         android:layout_marginBottom="28dp"
         android:contentDescription="@string/app_name"
+        android:scaleType="fitXY"
         android:src="@drawable/lightbulb_off"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sliderhum"
-        android:scaleType="fitXY"/>
+        app:layout_constraintTop_toBottomOf="@+id/sliderhum" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

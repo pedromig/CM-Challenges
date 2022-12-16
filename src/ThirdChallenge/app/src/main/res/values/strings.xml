@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ThirdChallenge</string>
+    <string name="app_name">Temperature and Humidity Control</string>
     <string name="textview">TextView</string>
     <string name="threshold_temperature">Temperature Range</string>
     <string name="threshold_humidity">Humidity Range</string>
