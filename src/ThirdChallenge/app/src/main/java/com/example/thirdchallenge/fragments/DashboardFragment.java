@@ -13,6 +13,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,9 +27,14 @@ import com.example.thirdchallenge.models.DashboardViewModel;
 import com.example.thirdchallenge.models.Measure;
 import com.example.thirdchallenge.util.MQTT;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.material.slider.RangeSlider;
 
@@ -37,8 +43,12 @@ import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class DashboardFragment extends Fragment {
@@ -97,11 +107,18 @@ public class DashboardFragment extends Fragment {
 
         // Thresholds
         this.temperatureSlider = view.findViewById(R.id.slider_temperature);
+        List<Float> t = this.temperatureSlider.getValues();
+        this.viewModel.setMinTemperature(Collections.min(t));
+        this.viewModel.setMaxTemperature(Collections.max(t));
+
         this.humiditySlider = view.findViewById(R.id.slider_humidity);
+        List<Float> h = this.humiditySlider.getValues();
+        this.viewModel.setMinHumidity(Collections.min(h));
+        this.viewModel.setMaxHumidity(Collections.max(h));
 
         // Charts
         this.chart = view.findViewById(R.id.chart);
-        this.setupChart(this.chart);
+        this.setupChart(container, this.chart);
 
         return view;
     }
@@ -109,6 +126,8 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // Set Chart Data
+        updateChart();
 
         // Setup Listener For Arduino Led
         this.button.setOnClickListener(v -> {
@@ -181,39 +200,38 @@ public class DashboardFragment extends Fragment {
             @Override
             public void messageArrived(String topic, MqttMessage message) {
                 Measure<Double> measure = new Measure<>(Double.parseDouble(message.toString()));
-
                 if (topic.equals(TEMPERATURE_TOPIC)) {
                     viewModel.addTemperatureMeasure(measure);
                     if (notifyTemperature && (measure.getMeasure() < viewModel.getMinTemperature()
                             || measure.getMeasure() > viewModel.getMaxTemperature())) {
-                        System.out.println("here");
                         NotificationCompat.Builder builder = new NotificationCompat.Builder(requireContext(), CHANNEL_ID)
                                 .setSmallIcon(R.drawable.ic_launcher_background)
                                 .setContentTitle("Temperature Warning!")
                                 .setContentText("Measured temperature not inside allowed range!")
-                                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                                .setPriority(NotificationCompat.FLAG_ONLY_ALERT_ONCE);
                         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(requireContext());
                         notificationManager.notify(1, builder.build());
                         notifyTemperature = false;
-                    } else {
+                    } else if ((measure.getMeasure() < viewModel.getMinTemperature()
+                            || measure.getMeasure() > viewModel.getMaxTemperature())) {
                         notifyTemperature = true;
                     }
                 }
 
                 if (topic.equals(HUMIDITY_TOPIC)) {
                     viewModel.addHumidityMeasure(measure);
-                    if (notifyHumidity && (measure.getMeasure() < viewModel.getMaxHumidity()
-                            || measure.getMeasure() > viewModel.getMinHumidity())) {
-                        System.out.println("here");
+                    if (notifyHumidity && (measure.getMeasure() < viewModel.getMinHumidity()
+                            || measure.getMeasure() > viewModel.getMaxHumidity())) {
                         NotificationCompat.Builder builder = new NotificationCompat.Builder(requireContext(), CHANNEL_ID)
                                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                                 .setContentTitle("Humidity Warning!")
                                 .setContentText("Measured humidity not inside allowed range!")
-                                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                                .setPriority(NotificationCompat.FLAG_ONLY_ALERT_ONCE);
                         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(requireContext());
                         notificationManager.notify(2, builder.build());
                         notifyHumidity = false;
-                    } else {
+                    } else if (measure.getMeasure() >= viewModel.getMinHumidity()
+                            || measure.getMeasure() <= viewModel.getMaxHumidity()) {
                         notifyHumidity = true;
                     }
                 }
@@ -229,16 +247,51 @@ public class DashboardFragment extends Fragment {
         return mqttService;
     }
 
-    private void setupChart(LineChart chart) {
+    private void setupChart(ViewGroup view, LineChart chart) {
+        // General Settings
+        chart.getDescription().setEnabled(false);
+        chart.setDrawBorders(false);
         chart.setDrawGridBackground(true);
         chart.setTouchEnabled(true);
-        chart.setDragEnabled(true);
         chart.setScaleEnabled(true);
         chart.setPinchZoom(false);
+        chart.setDragEnabled(true);
+        chart.getAxisRight().setEnabled(false);
         chart.setBackgroundColor(Color.WHITE);
+        chart.setNoDataText("Turn on arduino to get some data");
+
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setDrawGridLines(true);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawLabels(true);
+        xAxis.setGranularity(1f);
+        xAxis.setDrawAxisLine(true);
+        xAxis.setDrawGridLines(true);
+
+        SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+        xAxis.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                return df.format(Date.from(Instant.ofEpochMilli((long) value)));
+            }
+        });
+
+        YAxis yAxis = chart.getAxisLeft();
+        yAxis.setEnabled(true);
+        yAxis.setDrawGridLines(true);
+
+        Legend l = chart.getLegend();
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        l.setXOffset(10);
+        l.setDrawInside(true);
     }
 
     private void updateChart() {
+
+        this.chart.resetTracking();
+
         ArrayList<Entry> temperatures = new ArrayList<>();
         ArrayList<Entry> humidities = new ArrayList<>();
 
@@ -251,7 +304,20 @@ public class DashboardFragment extends Fragment {
         }
 
         LineDataSet temperaturesDataset = new LineDataSet(temperatures, "temperature");
+        temperaturesDataset.setLineWidth(2.5f);
+        temperaturesDataset.setCircleRadius(4f);
+        temperaturesDataset.setColor(Color.rgb(222, 20, 20));
+        temperaturesDataset.setCircleColor(Color.rgb(222, 20, 20));
+        temperaturesDataset.enableDashedLine(10, 10, 0);
+        temperaturesDataset.setLabel("Temperature");
+
         LineDataSet humiditiesDataset = new LineDataSet(humidities, "humidity");
+        humiditiesDataset.setLineWidth(2.5f);
+        humiditiesDataset.setCircleRadius(4f);
+        humiditiesDataset.enableDashedLine(10, 10, 0);
+        humiditiesDataset.setColor(Color.rgb(14, 148, 196));
+        humiditiesDataset.setCircleColor(Color.rgb(14, 148, 196));
+        humiditiesDataset.setLabel("Humidity");
 
         ArrayList<ILineDataSet> data = new ArrayList<>();
         data.add(temperaturesDataset);

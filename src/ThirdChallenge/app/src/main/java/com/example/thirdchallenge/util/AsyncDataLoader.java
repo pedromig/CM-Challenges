@@ -29,8 +29,6 @@ public class AsyncDataLoader {
             try {
                 ArrayList<Measure<Double>> temperatures = this.database.getTemperatures();
                 ArrayList<Measure<Double>> humidities = this.database.getHumidities();
-                System.out.println("HERERERE");
-
                 handler.post(() -> callback.onComplete(temperatures, humidities));
             } catch (ParseException e) {
                 e.printStackTrace();
