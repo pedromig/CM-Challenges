@@ -19,19 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/threshold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="19dp"
-        android:text="@string/filter"
-        android:textAlignment="center"
-        android:textSize="19sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chart" />
-
     <Switch
         android:id="@+id/switch_temperature"
         android:layout_width="wrap_content"
@@ -42,7 +29,7 @@
         app:layout_constraintEnd_toStartOf="@+id/switch_humidity"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/threshold"
+        app:layout_constraintTop_toBottomOf="@+id/chart"
         tools:ignore="MissingConstraints,UseSwitchCompatOrMaterialXml,TouchTargetSizeCheck" />
 
     <Switch
@@ -55,7 +42,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/switch_temperature"
-        app:layout_constraintTop_toBottomOf="@+id/threshold"
+        app:layout_constraintTop_toBottomOf="@+id/chart"
         tools:ignore="MissingConstraints,UseSwitchCompatOrMaterialXml,TouchTargetSizeCheck" />
 
     <TextView
