@@ -1,13 +1,7 @@
 package com.example.thirdchallenge.fragments;
 
-import static com.example.thirdchallenge.activities.MainActivity.HUMIDITY_TOPIC;
-import static com.example.thirdchallenge.activities.MainActivity.LED_TOPIC;
-import static com.example.thirdchallenge.activities.MainActivity.TEMPERATURE_TOPIC;
-
-import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 

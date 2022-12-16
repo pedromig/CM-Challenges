@@ -5,110 +5,114 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.DashboardFragment"
-    tools:layout_editor_absoluteX="20dp"
-    tools:layout_editor_absoluteY="-72dp">
-
-    <TextView
-        android:id="@+id/threshold3"
-        android:layout_width="154dp"
-        android:layout_height="24dp"
-        android:text="@string/threshold"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/slider_temperature"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/threshold4"
-        android:layout_width="154dp"
-        android:layout_height="24dp"
-        android:layout_marginBottom="4dp"
-        android:text="@string/humidity_range"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/slider_humidity"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageButton
-        android:id="@+id/image_button"
-        android:layout_width="117dp"
-        android:layout_height="102dp"
-        android:layout_marginBottom="16dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/lightbulb_off"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="0dp">
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"
-        android:layout_width="382dp"
-        android:layout_height="279dp"
-        android:layout_marginTop="28dp"
+        android:layout_width="350dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        app:flow_horizontalAlign="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.slider.RangeSlider
-        android:id="@+id/slider_temperature"
-        android:layout_width="352dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="96dp"
-        android:contentDescription="@string/app_name"
-        android:stepSize="0.5"
-        android:valueFrom="0.0"
-        android:valueTo="50.0"
-        app:labelBehavior="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chart"
-        app:values="@array/initial_range_slider_values" />
-
-    <com.google.android.material.slider.RangeSlider
-        android:id="@+id/slider_humidity"
-        android:layout_width="352dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="216dp"
-        android:contentDescription="@string/app_name"
-        android:stepSize="0.5"
-        android:valueFrom="0.0"
-        android:valueTo="50.0"
-        app:labelBehavior="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chart"
-        app:values="@array/initial_range_slider_values" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switch_temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:minHeight="48dp"
+        android:layout_marginTop="20dp"
         android:text="@string/temperature_filter"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/switch_humidity"
-        app:layout_constraintHorizontal_bias="0.403"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chart"
-        tools:ignore="MissingConstraints,UseSwitchCompatOrMaterialXml" />
+        tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switch_humidity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="72dp"
-        android:minHeight="48dp"
+        android:layout_marginTop="20dp"
         android:text="@string/humidity_filter"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/switch_temperature"
         app:layout_constraintTop_toBottomOf="@+id/chart"
-        tools:ignore="MissingConstraints,UseSwitchCompatOrMaterialXml" />
+        tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
+
+    <TextView
+        android:id="@+id/threshold3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/threshold_temperature"
+        android:textAlignment="center"
+        android:textSize="19sp"
+        app:layout_constraintBottom_toTopOf="@+id/slider_temperature"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch_temperature" />
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/slider_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/app_name"
+        android:stepSize="0.5"
+        android:valueFrom="0.0"
+        android:valueTo="50.0"
+        app:flow_horizontalAlign="center"
+        app:labelBehavior="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/threshold3"
+        app:values="@array/initial_range_slider_values" />
+
+    <TextView
+        android:id="@+id/threshold4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/threshold_humidity"
+        android:textAlignment="center"
+        android:textSize="19sp"
+        app:layout_constraintBottom_toTopOf="@+id/slider_humidity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/slider_temperature" />
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/slider_humidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/app_name"
+        android:stepSize="1"
+        android:valueFrom="0.0"
+        android:valueTo="100"
+        app:flow_horizontalAlign="center"
+        app:labelBehavior="visible"
+        app:layout_constraintBottom_toTopOf="@+id/image_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/threshold4"
+        app:values="@array/initial_range_slider_values" />
+
+    <ImageButton
+        android:id="@+id/image_button"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="28dp"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitXY"
+        android:src="@drawable/lightbulb_off"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/slider_humidity" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
