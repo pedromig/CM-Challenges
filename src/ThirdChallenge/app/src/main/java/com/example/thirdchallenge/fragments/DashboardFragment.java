@@ -73,8 +73,11 @@ public class DashboardFragment extends Fragment {
         this.button = (ImageButton) view.findViewById(R.id.image_button);
         this.buttonState = false;
 
-        // Threshold
-        this.slider = (RangeSlider) view.findViewById(R.id.slider);
+        // Threshold temperature
+        this.slider = (RangeSlider) view.findViewById(R.id.slidertemp);
+
+        // Threshold humidity
+        this.slider = (RangeSlider) view.findViewById(R.id.sliderhum);
 
         // Charts
         this.chart = (LineChart) view.findViewById(R.id.chart);
