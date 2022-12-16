@@ -20,28 +20,47 @@ import com.example.thirdchallenge.fragments.DashboardFragment;
 import com.example.thirdchallenge.fragments.FragmentChanger;
 import com.example.thirdchallenge.models.DashboardViewModel;
 import com.example.thirdchallenge.models.Measure;
+import com.example.thirdchallenge.util.AsyncDataLoader;
+import com.example.thirdchallenge.util.DB;
 import com.example.thirdchallenge.util.MQTT;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.jetbrains.annotations.Async;
+
+import java.util.ArrayList;
 
 import kotlinx.coroutines.channels.Channel;
 
-public class MainActivity extends AppCompatActivity implements FragmentChanger {
+public class MainActivity extends AppCompatActivity implements FragmentChanger, AsyncDataLoader.Callback {
 
-    public MainActivity() {
-        super(R.layout.activity_main);
-    }
-
+    private DashboardViewModel dashboardViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Init Shared View Model With Data
-        new ViewModelProvider(this).get(DashboardViewModel.class);
+        // Open Database Connection
+        DB database = new DB(this);
 
-        // Instantiate Display Dashboard Fragment
+        // Init Shared View Model With Data
+        this.dashboardViewModel = new ViewModelProvider(this).get(DashboardViewModel.class);
+        this.dashboardViewModel.setDatabase(database);
+
+        // Load Data
+        AsyncDataLoader loader = new AsyncDataLoader(database);
+        loader.executeAsync(this);
+    }
+
+    @Override
+    public void onComplete(ArrayList<Measure<Double>> temperatures, ArrayList<Measure<Double>> humidities) {
+        // Fill ViewModel with information
+        this.dashboardViewModel.setTemperatures(temperatures);
+        this.dashboardViewModel.setHumidities(humidities);
+
+        setContentView(R.layout.activity_main);
+
+        // Instantiate Display Dashboard Fragments
         replaceFragment(new DashboardFragment());
     }
 

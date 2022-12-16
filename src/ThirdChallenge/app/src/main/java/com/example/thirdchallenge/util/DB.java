@@ -1,81 +1,109 @@
 package com.example.thirdchallenge.util;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.thirdchallenge.models.Measure;
+
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Date;
+
 public class DB extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "db-home.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final String DATABASE_NAME = "db-home-dashboard.db";
+    private static final int DATABASE_VERSION = 1;
 
-    private static final String TABLE_NAME = "home";
+    private static final String HUMIDITY_TABLE_NAME = "humidity";
+    private static final String TEMPERATURE_TABLE_NAME = "temperature";
 
     public DB(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    // public ArrayList<Note> getNotes() {
-    //     ArrayList<Note> notes = new ArrayList<>();
-    //     try (SQLiteDatabase db = this.getReadableDatabase()) {
-    //         try (Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null)) {
-    //             while (cursor.moveToNext()) {
-    //                 notes.add(new Note(
-    //                     cursor.getString(0),
-    //                     cursor.getString(1),
-    //                     cursor.getString(2)
-    //                 ));
-    //             }
-    //         }
-    //     }
-    //     return notes;
-    // }
+    public ArrayList<Measure<Double>> getTemperatures() throws ParseException {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssX");
+        ArrayList<Measure<Double>> temperatures = new ArrayList<>();
+        try (SQLiteDatabase db = this.getReadableDatabase()) {
+            try (Cursor cursor = db.rawQuery("SELECT * FROM " + TEMPERATURE_TABLE_NAME, null)) {
+                while (cursor.moveToNext()) {
+                    Date date = df.parse(cursor.getString(1));
+                    assert date != null;
+                    temperatures.add(new Measure<>(
+                                    cursor.getDouble(2),
+                                    new Timestamp(date.getTime())
+                            )
+                    );
+                }
+            }
+        }
+        return temperatures;
+    }
 
-    // public void addNote(Note note) {
-    //     try (SQLiteDatabase db = this.getWritableDatabase()) {
-    //         ContentValues values = new ContentValues();
-    //         values.put(TITLE_COLUMN, note.getTitle());
-    //         values.put(BODY_COLUMN, note.getBody());
-    //         values.put(ORIGIN_COLUMN, note.getOrigin());
-    //         db.insert(TABLE_NAME, null, values);
-    //     }
-    // }
+    public ArrayList<Measure<Double>> getHumidities() throws ParseException {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssX");
+        ArrayList<Measure<Double>> humidities = new ArrayList<>();
+        try (SQLiteDatabase db = this.getReadableDatabase()) {
+            try (Cursor cursor = db.rawQuery("SELECT * FROM " + HUMIDITY_TABLE_NAME, null)) {
+                while (cursor.moveToNext()) {
+                    Date date = df.parse(cursor.getString(1));
+                    assert date != null;
+                    humidities.add(new Measure<>(
+                                    cursor.getDouble(2),
+                                    new Timestamp(date.getTime())
+                            )
+                    );
+                }
+            }
+        }
+        return humidities;
+    }
 
+    private void addMeasure(Measure<Double> measure, String table) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssX");
+        try (SQLiteDatabase db = this.getWritableDatabase()) {
+            ContentValues values = new ContentValues();
+            values.put("timestamp", df.format(measure.getTimestamp()));
+            values.put("measure", measure.getMeasure());
+            db.insert(table, null, values);
+        }
+    }
 
-    // public void updateNote(String oldTitle, Note note) {
-    //     try (SQLiteDatabase db = this.getWritableDatabase()) {
-    //         ContentValues values = new ContentValues();
-    //         values.put(TITLE_COLUMN, note.getTitle());
-    //         values.put(BODY_COLUMN, note.getBody());
-    //         values.put(ORIGIN_COLUMN, note.getOrigin());
-    //         db.update(TABLE_NAME, values, TITLE_COLUMN + " = ?",
-    //             new String[]{ String.valueOf(oldTitle) });
-    //     }
-    // }
+    public void addTemperature(Measure<Double> measure) {
+        addMeasure(measure, TEMPERATURE_TABLE_NAME);
+    }
 
-
-    // public void removeNote(Note note) {
-    //     try (SQLiteDatabase db = this.getWritableDatabase()) {
-    //         db.delete(TABLE_NAME, TITLE_COLUMN + "= ?",
-    //             new String[]{ String.valueOf(note.getTitle()) }
-    //         );
-    //     }
-    // }
+    public void addHumidity(Measure<Double> measure) {
+        addMeasure(measure, HUMIDITY_TABLE_NAME);
+    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(
-                "CREATE TABLE " + TABLE_NAME + " (" +
-                        "x" + " TEXT PRIMARY KEY," +
-                        "x" + " TEXT," +
-                        "x" + " TEXT" + ")"
+                "CREATE TABLE " + HUMIDITY_TABLE_NAME + " (" +
+                        "id" + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "timestamp" + " TEXT," +
+                        "measure" + " FLOAT " + ")"
+        );
+        db.execSQL(
+                "CREATE TABLE " + TEMPERATURE_TABLE_NAME + " (" +
+                        "id" + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "timestamp" + " TEXT," +
+                        "measure" + " TEXT" + ")"
         );
     }
 
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + HUMIDITY_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TEMPERATURE_TABLE_NAME);
         onCreate(db);
     }
 }

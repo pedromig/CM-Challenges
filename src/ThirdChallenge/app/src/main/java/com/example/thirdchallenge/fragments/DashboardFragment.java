@@ -26,6 +26,10 @@ import com.example.thirdchallenge.models.DashboardViewModel;
 import com.example.thirdchallenge.models.Measure;
 import com.example.thirdchallenge.util.MQTT;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.material.slider.RangeSlider;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -33,6 +37,7 @@ import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -159,6 +164,7 @@ public class DashboardFragment extends Fragment {
         mqttService.setCallback(new MqttCallbackExtended() {
             boolean notifyTemperature = true;
             boolean notifyHumidity = true;
+
             @Override
             public void connectComplete(boolean reconnect, String serverURI) {
                 System.err.println("CONNECTED: " + serverURI);
@@ -174,7 +180,8 @@ public class DashboardFragment extends Fragment {
 
             @Override
             public void messageArrived(String topic, MqttMessage message) {
-                Measure<Double> measure = new Measure(Double.parseDouble(message.toString()));
+                Measure<Double> measure = new Measure<>(Double.parseDouble(message.toString()));
+
                 if (topic.equals(TEMPERATURE_TOPIC)) {
                     viewModel.addTemperatureMeasure(measure);
                     if (notifyTemperature && (measure.getMeasure() < viewModel.getMinTemperature()
@@ -183,7 +190,7 @@ public class DashboardFragment extends Fragment {
                         NotificationCompat.Builder builder = new NotificationCompat.Builder(requireContext(), CHANNEL_ID)
                                 .setSmallIcon(R.drawable.ic_launcher_background)
                                 .setContentTitle("Temperature Warning!")
-                                .setContentText("Measured temperature exceeded allowed range!")
+                                .setContentText("Measured temperature not inside allowed range!")
                                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
                         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(requireContext());
                         notificationManager.notify(1, builder.build());
@@ -191,24 +198,26 @@ public class DashboardFragment extends Fragment {
                     } else {
                         notifyTemperature = true;
                     }
+                }
 
-                } else if (topic.equals(HUMIDITY_TOPIC)) {
+                if (topic.equals(HUMIDITY_TOPIC)) {
                     viewModel.addHumidityMeasure(measure);
-                    if (notifyTemperature && (measure.getMeasure() < viewModel.getMaxHumidity()
+                    if (notifyHumidity && (measure.getMeasure() < viewModel.getMaxHumidity()
                             || measure.getMeasure() > viewModel.getMinHumidity())) {
                         System.out.println("here");
                         NotificationCompat.Builder builder = new NotificationCompat.Builder(requireContext(), CHANNEL_ID)
-                                .setSmallIcon(R.drawable.ic_launcher_background)
-                                .setContentTitle("Temperature Warning!")
-                                .setContentText("Measured temperature exceeded allowed range!")
+                                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                                .setContentTitle("Humidity Warning!")
+                                .setContentText("Measured humidity not inside allowed range!")
                                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
                         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(requireContext());
                         notificationManager.notify(2, builder.build());
-                        notifyTemperature = false;
+                        notifyHumidity = false;
                     } else {
-                        notifyTemperature = true;
+                        notifyHumidity = true;
                     }
                 }
+                updateChart();
             }
 
             @Override
@@ -226,7 +235,30 @@ public class DashboardFragment extends Fragment {
         chart.setDragEnabled(true);
         chart.setScaleEnabled(true);
         chart.setPinchZoom(false);
-        chart.setBackgroundColor(Color.BLACK);
+        chart.setBackgroundColor(Color.WHITE);
+    }
+
+    private void updateChart() {
+        ArrayList<Entry> temperatures = new ArrayList<>();
+        ArrayList<Entry> humidities = new ArrayList<>();
+
+        for (Measure<Double> t : viewModel.getTemperatures()) {
+            temperatures.add(new Entry(t.getTimestamp().getTime(), t.getMeasure().floatValue()));
+        }
+
+        for (Measure<Double> m : viewModel.getHumidities()) {
+            humidities.add(new Entry(m.getTimestamp().getTime(), m.getMeasure().floatValue()));
+        }
+
+        LineDataSet temperaturesDataset = new LineDataSet(temperatures, "temperature");
+        LineDataSet humiditiesDataset = new LineDataSet(humidities, "humidity");
+
+        ArrayList<ILineDataSet> data = new ArrayList<>();
+        data.add(temperaturesDataset);
+        data.add(humiditiesDataset);
+
+        this.chart.setData(new LineData(data));
+        this.chart.invalidate();
     }
 
     private void createNotificationsChannel() {

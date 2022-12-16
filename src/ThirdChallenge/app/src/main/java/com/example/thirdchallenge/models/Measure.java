@@ -8,6 +8,11 @@ public class Measure<T> {
     Date timestamp;
     T measure;
 
+    public Measure(T measure, Timestamp timestamp) {
+        this.measure = measure;
+        this.timestamp = Timestamp.from(Instant.now());
+    }
+
     public Measure(T measure) {
         this.measure = measure;
         this.timestamp = Timestamp.from(Instant.now());
@@ -15,6 +20,10 @@ public class Measure<T> {
 
     public T getMeasure() {
         return measure;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
     }
 
     @Override

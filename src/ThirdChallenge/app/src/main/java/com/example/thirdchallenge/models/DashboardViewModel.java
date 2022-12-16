@@ -13,8 +13,8 @@ public class DashboardViewModel extends ViewModel {
 
     private DB database = null;
 
-    private final ArrayList<Measure<Double>> temperatures = new ArrayList<>();
-    private final ArrayList<Measure<Double>> humidities = new ArrayList<>();
+    private ArrayList<Measure<Double>> temperatures = null;
+    private ArrayList<Measure<Double>> humidities = null;
 
     private double minTemperature;
     private double maxTemperature;
@@ -23,15 +23,13 @@ public class DashboardViewModel extends ViewModel {
     private double maxHumidity;
 
     public void addTemperatureMeasure(Measure<Double> measure) {
-        // assert this.database != null;
         this.temperatures.add(measure);
-        // executor.execute(() -> this.database.add(note));
+        executor.execute(() -> this.database.addTemperature(measure));
     }
 
     public void addHumidityMeasure(Measure<Double> measure) {
-        // assert this.database != null;
         this.humidities.add(measure);
-        // executor.execute(() -> this.database.add(note));
+        executor.execute(() -> this.database.addHumidity(measure));
     }
 
     public void setMaxTemperature(double maxTemperature) {
@@ -72,6 +70,14 @@ public class DashboardViewModel extends ViewModel {
 
     public ArrayList<Measure<Double>> getTemperatures() {
         return temperatures;
+    }
+
+    public void setHumidities(ArrayList<Measure<Double>> humidities) {
+        this.humidities = humidities;
+    }
+
+    public void setTemperatures(ArrayList<Measure<Double>> temperatures) {
+        this.temperatures = temperatures;
     }
 
     public void setDatabase(DB database) {
