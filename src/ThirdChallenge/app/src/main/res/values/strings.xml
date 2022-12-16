@@ -7,4 +7,5 @@
     <string name="humidity_filter">Humidity</string>
     <string name="temperature_view">Temperature</string>
     <string name="humidity_view">Humidity</string>
+    <string name="humidity_range">Humidity Range</string>
 </resources>

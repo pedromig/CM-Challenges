@@ -5,34 +5,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.DashboardFragment"
-    tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="-93dp">
+    tools:layout_editor_absoluteX="20dp"
+    tools:layout_editor_absoluteY="-72dp">
 
     <TextView
         android:id="@+id/threshold3"
         android:layout_width="154dp"
         android:layout_height="24dp"
-        android:text="@string/threshold"
+        android:text="@string/humidity_range"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/slider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/threshold4"
+        android:layout_width="154dp"
+        android:layout_height="24dp"
+        android:layout_marginBottom="4dp"
+        android:text="@string/threshold"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/slider3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <ImageButton
         android:id="@+id/image_button"
-        android:layout_width="116dp"
-        android:layout_height="119dp"
-        android:layout_marginBottom="28dp"
+        android:layout_width="117dp"
+        android:layout_height="102dp"
+        android:layout_marginBottom="16dp"
         android:contentDescription="@string/app_name"
         android:src="@drawable/lightbulb_off"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/slider"
-        app:layout_constraintVertical_bias="0.684" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"
@@ -48,7 +58,7 @@
         android:id="@+id/slider"
         android:layout_width="352dp"
         android:layout_height="60dp"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="96dp"
         android:contentDescription="@string/app_name"
         android:stepSize="0.5"
         android:valueFrom="0.0"
@@ -60,39 +70,45 @@
         app:layout_constraintTop_toBottomOf="@+id/chart"
         app:values="@array/initial_range_slider_values" />
 
-    <TextView
-        android:id="@+id/threshold"
-        android:layout_width="154dp"
-        android:layout_height="24dp"
-        android:layout_marginBottom="92dp"
-        android:text="@string/filter"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/slider"
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/slider3"
+        android:layout_width="352dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="216dp"
+        android:contentDescription="@string/app_name"
+        android:stepSize="0.5"
+        android:valueFrom="0.0"
+        android:valueTo="50.0"
+        app:labelBehavior="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chart"
+        app:values="@array/initial_range_slider_values" />
 
     <Switch
         android:id="@+id/switch_temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="12dp"
+        android:minHeight="48dp"
         android:text="@string/temperature_filter"
         app:layout_constraintEnd_toStartOf="@+id/switch_humidity"
-        app:layout_constraintHorizontal_bias="0.44"
+        app:layout_constraintHorizontal_bias="0.403"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/threshold"
+        app:layout_constraintTop_toBottomOf="@+id/chart"
         tools:ignore="MissingConstraints,UseSwitchCompatOrMaterialXml" />
 
     <Switch
         android:id="@+id/switch_humidity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="72dp"
+        android:minHeight="48dp"
         android:text="@string/humidity_filter"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/threshold"
+        app:layout_constraintTop_toBottomOf="@+id/chart"
         tools:ignore="MissingConstraints,UseSwitchCompatOrMaterialXml" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

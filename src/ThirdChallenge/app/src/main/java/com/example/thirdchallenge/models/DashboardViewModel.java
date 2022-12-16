@@ -19,6 +19,9 @@ public class DashboardViewModel extends ViewModel {
     private double minTemperature;
     private double maxTemperature;
 
+    private double minHumidity;
+    private double maxHumidity;
+
     public void addTemperatureMeasure(Measure<Double> measure) {
         // assert this.database != null;
         this.temperatures.add(measure);
@@ -45,6 +48,22 @@ public class DashboardViewModel extends ViewModel {
 
     public double getMinTemperature() {
         return minTemperature;
+    }
+
+    public double getMinHumidity() {
+        return minHumidity;
+    }
+
+    public double getMaxHumidity() {
+        return maxHumidity;
+    }
+
+    public void setMinHumidity(double minHumidity) {
+        this.minHumidity = minHumidity;
+    }
+
+    public void setMaxHumidity(double maxHumidity) {
+        this.maxHumidity = maxHumidity;
     }
 
     public ArrayList<Measure<Double>> getHumidities() {
