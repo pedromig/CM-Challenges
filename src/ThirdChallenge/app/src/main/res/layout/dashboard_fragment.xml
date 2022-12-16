@@ -12,9 +12,9 @@
         android:id="@+id/threshold3"
         android:layout_width="154dp"
         android:layout_height="24dp"
-        android:text="@string/humidity_range"
+        android:text="@string/threshold"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/slider"
+        app:layout_constraintBottom_toTopOf="@+id/slider_temperature"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
@@ -24,9 +24,9 @@
         android:layout_width="154dp"
         android:layout_height="24dp"
         android:layout_marginBottom="4dp"
-        android:text="@string/threshold"
+        android:text="@string/humidity_range"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/slider3"
+        app:layout_constraintBottom_toTopOf="@+id/slider_humidity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
@@ -55,7 +55,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.slider.RangeSlider
-        android:id="@+id/slider"
+        android:id="@+id/slider_temperature"
         android:layout_width="352dp"
         android:layout_height="60dp"
         android:layout_marginTop="96dp"
@@ -71,7 +71,7 @@
         app:values="@array/initial_range_slider_values" />
 
     <com.google.android.material.slider.RangeSlider
-        android:id="@+id/slider3"
+        android:id="@+id/slider_humidity"
         android:layout_width="352dp"
         android:layout_height="60dp"
         android:layout_marginTop="216dp"
@@ -86,7 +86,7 @@
         app:layout_constraintTop_toBottomOf="@+id/chart"
         app:values="@array/initial_range_slider_values" />
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switch_temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
         app:layout_constraintTop_toBottomOf="@+id/chart"
         tools:ignore="MissingConstraints,UseSwitchCompatOrMaterialXml" />
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switch_humidity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
