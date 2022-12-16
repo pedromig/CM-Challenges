@@ -30,7 +30,8 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chart"
-        tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
+        tools:ignore="MissingConstraints,TouchTargetSizeCheck"
+        android:theme="@style/Style.Temperature"/>
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switch_humidity"
@@ -70,7 +71,8 @@
         app:labelBehavior="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/threshold3"
-        app:values="@array/initial_range_slider_values" />
+        app:values="@array/initial_range_slider_values"
+        android:theme="@style/Style.Temperature"/>
 
     <TextView
         android:id="@+id/threshold4"
@@ -98,7 +100,8 @@
         app:layout_constraintBottom_toTopOf="@+id/image_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/threshold4"
-        app:values="@array/initial_range_slider_values" />
+        app:values="@array/initial_range_slider_values"
+        />
 
     <ImageButton
         android:id="@+id/image_button"
@@ -109,6 +112,7 @@
         android:scaleType="fitXY"
         android:src="@drawable/lightbulb_off"
         android:textAlignment="center"
+        android:background="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

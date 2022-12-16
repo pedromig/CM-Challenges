@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Style.Temperature" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <!-- Primary brand color. -->
+    <item name="colorPrimary" type="color">@color/red</item>
+    <item name="colorPrimaryVariant" type="color">@color/red</item>
+    <item name="colorOnPrimary" type="color">@color/white</item>
+    <!-- Secondary brand color. -->
+    <item name="colorSecondary" type="color">@color/red</item>
+    <item name="colorSecondaryVariant" type="color">@color/red</item>
+        <item name="colorOnSecondary" type="color">@color/black</item>
+    </style>
+</resources>
