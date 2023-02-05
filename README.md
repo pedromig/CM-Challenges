@@ -1,4 +1,4 @@
-# CM-Project
+# CM-Challenges
 
 # Collaborators
 
